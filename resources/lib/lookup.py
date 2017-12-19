@@ -34,7 +34,7 @@ class Lookup:
         m = re.compile('"(.*)"\s*<(.*)>').search(uri)
         if m and m.group(1):
             key = m.group(1)
-            # 0で始まって9桁以上ある場合は電話番号として先ず電話帳、次にキャッシュを検索
+            # 0で始まって9桁以上ある場合は電話番号として先ず電話帳、次にキャッシュ、最後にウェブを検索
             if re.compile('^0[0-9]{8,}').search(key):
                 # 電話帳を検索
                 name = self.phonebook.lookup(key)
@@ -42,6 +42,7 @@ class Lookup:
                     # キャッシュを検索
                     name = self.cache.lookup(key)
                     if name is None:
+                        # ウェブを検索
                         name = search(key) #unicode
                         if name is None:
                             pass

@@ -164,8 +164,7 @@ class MyCallback(pj.AccountCallback):
         name = Lookup().lookup(uri)
         # 通知
         duration = addon.getSetting('duration')
-        xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")'
-            % (addon.getAddonInfo('name'), name, duration))
+        xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
         # Kodiをアクティベート
         if addon.getSetting('cec') == 'true':
             xbmc.executebuiltin('XBMC.CECActivateSource')
