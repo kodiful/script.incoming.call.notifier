@@ -6,7 +6,6 @@ import xbmc, xbmcaddon
 
 from resources.lib.common import log
 from resources.lib.lookup import Lookup
-from resources.lib.history import History
 
 addon = xbmcaddon.Addon()
 appname = addon.getAddonInfo('name')
@@ -158,6 +157,9 @@ class MyCallback(pj.AccountCallback):
             "call_time: %s" % info.call_time,
             "total_time: %s" % info.total_time
         ]))
+        # Kodiをアクティベート
+        if addon.getSetting('cec') == 'true':
+            xbmc.executebuiltin('XBMC.CECActivateSource')
         # 発信者番号
         uri = call.info().remote_uri
         # 番号検索
@@ -165,9 +167,6 @@ class MyCallback(pj.AccountCallback):
         # 通知
         duration = addon.getSetting('duration')
         xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
-        # Kodiをアクティベート
-        if addon.getSetting('cec') == 'true':
-            xbmc.executebuiltin('XBMC.CECActivateSource')
 
 #-------------------------------------------------------------------------------
 def register(lib):
