@@ -13,8 +13,12 @@ from common import log
 # searchをインポート
 addon = xbmcaddon.Addon()
 path = addon.getSetting('search')
-if os.path.isfile(path): sys.path.append(os.path.dirname(path))
-from search import search
+if os.path.isfile(path):
+    sys.path.append(os.path.dirname(path))
+    from customsearch import search
+else:
+    addon.setSetting('search','')
+    from defaultsearch import search
 
 #-------------------------------------------------------------------------------
 class Lookup:
