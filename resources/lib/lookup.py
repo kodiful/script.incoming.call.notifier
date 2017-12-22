@@ -5,7 +5,6 @@ import urllib
 
 import xbmc, xbmcaddon
 
-from scrape import scrape
 from phonebook import PhoneBook
 from history import History
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib, re
+import urllib
 from bs4 import BeautifulSoup
 from common import log
 
