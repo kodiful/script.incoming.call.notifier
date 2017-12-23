@@ -17,5 +17,6 @@
     <summary lang="ja">着信通知</summary>
     <description lang="en">Notify incoming call to IP phone</description>
     <description lang="ja">IP電話への着信を通知します</description>
+    <website>http://kodiful.com/</website>
   </extension>
 </addon>
