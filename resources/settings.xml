@@ -24,9 +24,10 @@
   <category label="32100">
     <setting label="32101" id="duration" type="labelenum" values="5|10|20|30|60" default="10"/>
     <setting label="32102" id="cec" type="bool" default="true"/>
-    <setting label="32103" id="search" type="file" default=""/>
     <setting label="32105" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearCache)"/>
     <setting label="32106" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearHistory)"/>
+    <setting label="32103" id="search" type="file" default=""/>
+    <setting label="32107" type="action" action="RunPlugin(plugin://$ID/?action=clearSearch)" enable="!eq(-1,)"/>
     <setting label="32104" id="debug" type="bool" default="false"/>
   </category>
 </settings>

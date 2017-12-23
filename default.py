@@ -134,6 +134,9 @@ def main():
         History('history.json').clear()
         xbmc.executebuiltin('Container.Refresh()')
 
+    elif action[0] == 'clearSearch':
+        addon.setSetting('search','')
+
     elif action[0] == 'settings':
         xbmc.executebuiltin('Addon.OpenSettings(%s)' % addon.getAddonInfo('id'))
 

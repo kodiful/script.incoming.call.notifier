@@ -22,10 +22,11 @@
   <string id="32100">その他</string>
   <string id="32101">表示時間</string>
   <string id="32102">HDMI-CEC</string>
-  <string id="32103">番号検索スクリプトのパス</string>
+  <string id="32103">customsearch.pyのパス</string>
   <string id="32104">デバッグ</string>
   <string id="32105">[COLOR green]キャッシュをクリアする[/COLOR]</string>
   <string id="32106">[COLOR green]着信履歴をクリアする[/COLOR]</string>
+  <string id="32107">[COLOR green]customsearch.pyのパスをクリアする[/COLOR]</string>
   <!--constants-->
   <string id="32900">月,火,水,木,金,土,日</string>
   <string id="32901">[COLOR orange]電話帳[/COLOR]</string>

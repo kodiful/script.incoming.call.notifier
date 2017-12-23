@@ -22,10 +22,11 @@
   <string id="32100">Other Settings</string>
   <string id="32101">Duration</string>
   <string id="32102">HDMI-CEC</string>
-  <string id="32103">Path to number search script</string>
+  <string id="32103">Path to customsearch.py</string>
   <string id="32104">Debug</string>
   <string id="32105">[COLOR green]Clear cache[/COLOR]</string>
   <string id="32106">[COLOR green]Clear history[/COLOR]</string>
+  <string id="32107">[COLOR green]Clear path to customsearch.py[/COLOR]</string>
   <!--constants-->
   <string id="32900">Mon,Tue,Wed,Thu,Fri,Sat,Sun</string>
   <string id="32901">[COLOR orange]Phone Book[/COLOR]</string>

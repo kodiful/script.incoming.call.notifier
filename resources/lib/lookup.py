@@ -14,10 +14,13 @@ from common import log
 addon = xbmcaddon.Addon()
 path = addon.getSetting('search')
 if os.path.isfile(path):
-    sys.path.append(os.path.dirname(path))
-    from customsearch import search
+    dirname = os.path.dirname(path)
+    if os.path.samefile(path, os.path.join(dirname,'customsearch.py')):
+        sys.path.append(os.path.dirname(path))
+        from customsearch import search
+    else:
+        from defaultsearch import search
 else:
-    addon.setSetting('search','')
     from defaultsearch import search
 
 #-------------------------------------------------------------------------------
