@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.incoming.call.notifier"
        name="Incoming Call Notifier"
-       version="1.0.2"
+       version="1.0.3"
        provider-name="kodiful">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -17,6 +17,8 @@
     <summary lang="ja">着信通知</summary>
     <description lang="en">Notify incoming call to IP phone</description>
     <description lang="ja">IP電話への着信を通知します</description>
+    <disclaimer lang="en">Tested on macOS</disclaimer>
+    <disclaimer lang="ja">macOSでの動作を確認</disclaimer>
     <website>http://kodiful.com/</website>
   </extension>
 </addon>
