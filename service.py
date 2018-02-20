@@ -3,6 +3,7 @@
 import threading
 import os, re, sys
 import xbmc, xbmcaddon
+import urllib
 
 from resources.lib.common import log
 from resources.lib.lookup import Lookup
@@ -25,6 +26,24 @@ except:
     message = 'Can\'t import pjsua'
     xbmc.executebuiltin('XBMC.Notification("%s","%s",3000,"DefaultIconError.png")' % (appname,message))
     sys.exit()
+
+# メールアドオンの有無を確認
+mailaddon = 'script.handler.email'
+addon.setSetting('mailaddon', '')
+try:
+    xbmcaddon.Addon(mailaddon)
+    addon.setSetting('mailaddon', mailaddon)
+except:
+    pass
+
+# LINE Notifyアドオンの有無を確認
+lineaddon = 'script.handler.line.notify'
+addon.setSetting('lineaddon', '')
+try:
+    xbmcaddon.Addon(lineaddon)
+    addon.setSetting('lineaddon', lineaddon)
+except:
+    pass
 
 #-------------------------------------------------------------------------------
 class Monitor(xbmc.Monitor):
@@ -163,10 +182,29 @@ class MyCallback(pj.AccountCallback):
         # 発信者番号
         uri = call.info().remote_uri
         # 番号検索
-        name = Lookup().lookup(uri)
+        name, key = Lookup().lookup(uri)
         # 通知
         duration = addon.getSetting('duration')
         xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
+        # メールによる通知
+        if addon.getSetting('mailaddon') and addon.getSetting('mailnotify'):
+            template = addon.getSetting('mailtemplate') or addon.getLocalizedString(32913)
+            if isinstance(template, unicode): template = template.encode('utf-8')
+            address = addon.getSetting('mailaddress')
+            message = template.format(name=name,key=key,uri=uri)
+            values = {'action':'send', 'subject':message, 'message':message, 'to':address}
+            postdata = urllib.urlencode(values)
+            xbmc.executebuiltin('XBMC.RunPlugin("plugin://%s?%s")' % (mailaddon,postdata))
+        # LINE notifyによる通知
+        if addon.getSetting('lineaddon') and addon.getSetting('linenotify'):
+            template = addon.getSetting('linetemplate') or addon.getLocalizedString(32913)
+            if isinstance(template, unicode): template = template.encode('utf-8')
+            token = addon.getSetting('linetoken')
+            message = template.format(name=name,key=key,uri=uri)
+            values = {'action':'send', 'name':token, 'message':message}
+            postdata = urllib.urlencode(values)
+            xbmc.executebuiltin('XBMC.RunPlugin("plugin://%s?%s")' % (lineaddon,postdata))
+
 
 #-------------------------------------------------------------------------------
 def register(lib):

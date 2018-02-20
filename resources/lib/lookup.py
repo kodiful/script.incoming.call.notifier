@@ -77,4 +77,4 @@ class Lookup:
         name = name or key or uri
         # 履歴に追加
         if history: self.history.append(uri, key or 'n/a', name or 'n/a')
-        return name
+        return name, key
