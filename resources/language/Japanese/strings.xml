@@ -14,6 +14,13 @@
   <string id="32005">ユーザID</string>
   <string id="32006">パスワード</string>
   <string id="32007">pjsua.pyのパス</string>
+
+  <string id="32200">電話帳</string>
+  <string id="32201">番号</string>
+  <string id="32202">名前</string>
+  <string id="32203">[COLOR green]電話帳に追加する[/COLOR]</string>
+  <string id="32204">[COLOR green]電話帳を更新する[/COLOR]</string>
+
   <string id="32100">その他</string>
   <string id="32101">表示時間</string>
   <string id="32102">HDMI-CEC</string>
@@ -22,17 +29,16 @@
   <string id="32105">[COLOR green]キャッシュをクリアする[/COLOR]</string>
   <string id="32106">[COLOR green]着信履歴をクリアする[/COLOR]</string>
   <string id="32107">[COLOR green]customsearch.pyのパスをクリアする[/COLOR]</string>
-  <string id="32200">電話帳</string>
-  <string id="32201">番号</string>
-  <string id="32202">名前</string>
-  <string id="32203">[COLOR green]電話帳に追加する[/COLOR]</string>
-  <string id="32204">[COLOR green]電話帳を更新する[/COLOR]</string>
+
   <string id="32300">メール通知</string>
   <string id="32301">メールで着信を通知する</string>
   <string id="32302">あて先メールアドレス</string>
+  <string id="32303">メッセージ</string>
+
   <string id="32400">LINE通知</string>
   <string id="32401">LINEで着信を通知する</string>
   <string id="32402">あて先トークン名</string>
+  <string id="32403">メッセージ</string>
   <!--constants-->
   <string id="32900">月,火,水,木,金,土,日</string>
   <string id="32901">[COLOR orange]電話帳[/COLOR]</string>
@@ -44,8 +50,8 @@
   <string id="32907">電話帳を開く</string>
   <string id="32908">非通知</string>
   <string id="32909">公衆電話</string>
-  <string id="32910">追加のアドオンが必要です</string>
-  <string id="32911">http://kodiful.comをご覧ください</string>
-  <string id="32912">メッセージ</string>
+  <string id="32910">通知不可</string>
   <string id="32913">{name}&lt;{key}&gt;から着信</string>
+  <string id="32990">追加のアドオンが必要です</string>
+  <string id="32991">http://kodiful.comをご覧ください</string>
 </strings>

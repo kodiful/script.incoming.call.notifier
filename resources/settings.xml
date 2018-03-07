@@ -32,18 +32,18 @@
   </category>
   <category label="32300">
     <setting id="mailaddon" type="text" visible="false"/>
-    <setting label="32910" type="text" enable="false" visible="eq(-1,)"/>
-    <setting label="32911" type="text" enable="false" visible="eq(-2,)"/>
+    <setting label="32990" type="text" enable="false" visible="eq(-1,)"/>
+    <setting label="32991" type="text" enable="false" visible="eq(-2,)"/>
     <setting label="32301" id="mailnotify" type="bool" default="false" visible="!eq(-3,)"/>
     <setting label="32302" id="mailaddress" type="text" enable="eq(-1,true)" visible="!eq(-4,)"/>
-    <setting label="32912" id="mailtemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
+    <setting label="32303" id="mailtemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
   </category>
   <category label="32400">
     <setting id="lineaddon" type="text" visible="false"/>
-    <setting label="32910" type="text" enable="false" visible="eq(-1,)"/>
-    <setting label="32911" type="text" enable="false" visible="eq(-2,)"/>
+    <setting label="32990" type="text" enable="false" visible="eq(-1,)"/>
+    <setting label="32991" type="text" enable="false" visible="eq(-2,)"/>
     <setting label="32401" id="linenotify" type="bool" default="false" visible="!eq(-3,)"/>
     <setting label="32402" id="linetoken" type="text" enable="eq(-1,true)" visible="!eq(-4,)"/>
-    <setting label="32912" id="linetemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
+    <setting label="32403" id="linetemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
   </category>
 </settings>
