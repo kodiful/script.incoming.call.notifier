@@ -187,7 +187,7 @@ class MyCallback(pj.AccountCallback):
         duration = addon.getSetting('duration')
         xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
         # メールによる通知
-        if addon.getSetting('mailaddon') and addon.getSetting('mailnotify'):
+        if addon.getSetting('mailaddon') and addon.getSetting('mailnotify') == 'true':
             template = addon.getSetting('mailtemplate') or addon.getLocalizedString(32913)
             if isinstance(template, unicode): template = template.encode('utf-8')
             address = addon.getSetting('mailaddress')
@@ -196,7 +196,7 @@ class MyCallback(pj.AccountCallback):
             postdata = urllib.urlencode(values)
             xbmc.executebuiltin('XBMC.RunPlugin("plugin://%s?%s")' % (mailaddon,postdata))
         # LINE notifyによる通知
-        if addon.getSetting('lineaddon') and addon.getSetting('linenotify'):
+        if addon.getSetting('lineaddon') and addon.getSetting('linenotify') == 'true':
             template = addon.getSetting('linetemplate') or addon.getLocalizedString(32913)
             if isinstance(template, unicode): template = template.encode('utf-8')
             token = addon.getSetting('linetoken')
