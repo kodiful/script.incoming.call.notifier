@@ -15,7 +15,7 @@ appname = addon.getAddonInfo('name')
 path = addon.getSetting('pjsua')
 if path == '':
     message = 'Can\'t import pjsua'
-    xbmc.executebuiltin('XBMC.Notification("%s","%s",3000,"DefaultIconError.png")' % (appname,message))
+    xbmc.executebuiltin('Notification("%s","%s",3000,"DefaultIconError.png")' % (appname,message))
     sys.exit()
 
 # pjsuaをインポート
@@ -24,26 +24,24 @@ try:
     import pjsua as pj
 except:
     message = 'Can\'t import pjsua'
-    xbmc.executebuiltin('XBMC.Notification("%s","%s",3000,"DefaultIconError.png")' % (appname,message))
+    xbmc.executebuiltin('Notification("%s","%s",3000,"DefaultIconError.png")' % (appname,message))
     sys.exit()
 
 # メールアドオンの有無を確認
 mailaddon = 'script.handler.email'
-addon.setSetting('mailaddon', '')
 try:
     xbmcaddon.Addon(mailaddon)
     addon.setSetting('mailaddon', mailaddon)
 except:
-    pass
+    addon.setSetting('mailaddon', '')
 
 # LINE Notifyアドオンの有無を確認
 lineaddon = 'script.handler.line.notify'
-addon.setSetting('lineaddon', '')
 try:
     xbmcaddon.Addon(lineaddon)
     addon.setSetting('lineaddon', lineaddon)
 except:
-    pass
+    addon.setSetting('lineaddon', '')
 
 #-------------------------------------------------------------------------------
 class Monitor(xbmc.Monitor):
@@ -161,6 +159,8 @@ class MyCallback(pj.AccountCallback):
         '''
 
     def on_incoming_call(self, call):
+        # アドオン
+        addon = xbmcaddon.Addon()
         # ログ
         info = call.info()
         log("\n".join([
@@ -178,14 +178,14 @@ class MyCallback(pj.AccountCallback):
         ]))
         # Kodiをアクティベート
         if addon.getSetting('cec') == 'true':
-            xbmc.executebuiltin('XBMC.CECActivateSource')
+            xbmc.executebuiltin('CECActivateSource')
         # 発信者番号
         uri = call.info().remote_uri
         # 番号検索
         name, key = Lookup().lookup(uri)
         # 通知
         duration = addon.getSetting('duration')
-        xbmc.executebuiltin('XBMC.Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
+        xbmc.executebuiltin('Notification("%s","%s",%s000,"DefaultIconInfo.png")' % (appname,name,duration))
         # メールによる通知
         if addon.getSetting('mailaddon') and addon.getSetting('mailnotify') == 'true':
             template = addon.getSetting('mailtemplate') or addon.getLocalizedString(32913)
@@ -194,7 +194,7 @@ class MyCallback(pj.AccountCallback):
             message = template.format(name=name,key=key,uri=uri)
             values = {'action':'send', 'subject':message, 'message':message, 'to':address}
             postdata = urllib.urlencode(values)
-            xbmc.executebuiltin('XBMC.RunPlugin("plugin://%s?%s")' % (mailaddon,postdata))
+            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (mailaddon,postdata))
         # LINE notifyによる通知
         if addon.getSetting('lineaddon') and addon.getSetting('linenotify') == 'true':
             template = addon.getSetting('linetemplate') or addon.getLocalizedString(32913)
@@ -203,13 +203,15 @@ class MyCallback(pj.AccountCallback):
             message = template.format(name=name,key=key,uri=uri)
             values = {'action':'send', 'name':token, 'message':message}
             postdata = urllib.urlencode(values)
-            xbmc.executebuiltin('XBMC.RunPlugin("plugin://%s?%s")' % (lineaddon,postdata))
+            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (lineaddon,postdata))
 
 
 #-------------------------------------------------------------------------------
 def register(lib):
 
     try:
+        # アドオン
+        addon = xbmcaddon.Addon()
         # settings
         port = addon.getSetting('port')
         extension = addon.getSetting('extension')
@@ -249,7 +251,7 @@ if __name__ == "__main__":
         status = acc.info().reg_status
         if status == 200:
             message = 'Registered as SIP client'
-            xbmc.executebuiltin('XBMC.Notification("%s","%s",3000,"DefaultIconInfo.png")' % (appname,message))
+            xbmc.executebuiltin('Notification("%s","%s",3000,"DefaultIconInfo.png")' % (appname,message))
             # monitor loop
             monitor = Monitor()
             while not monitor.abortRequested():
@@ -259,7 +261,7 @@ if __name__ == "__main__":
                     acc.set_registration(True)
         else:
             message = 'SIP registration failed (%d)' % status
-            xbmc.executebuiltin('XBMC.Notification("%s","%s",3000,"DefaultIconWarning.png")' % (appname,message))
+            xbmc.executebuiltin('Notification("%s","%s",3000,"DefaultIconWarning.png")' % (appname,message))
         lib.destroy()
         lib = None
 

@@ -23,7 +23,7 @@
 
   <string id="32100">Other Settings</string>
   <string id="32101">Duration</string>
-  <string id="32102">HDMI-CEC</string>
+  <string id="32102">Switch screen on incoming</string>
   <string id="32103">Path to customsearch.py</string>
   <string id="32104">Debug</string>
   <string id="32105">[COLOR green]Clear cache[/COLOR]</string>
