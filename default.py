@@ -8,25 +8,24 @@ from resources.lib.common import log, isholiday
 from resources.lib.history import History
 from resources.lib.phonebook import PhoneBook
 from resources.lib.lookup import Lookup
+from resources.lib.const import Const
 
 #-------------------------------------------------------------------------------
 def main():
     # パラメータ抽出
     args = urlparse.parse_qs(sys.argv[2][1:])
     action = args.get('action', None)
-    # アドオン
-    addon = xbmcaddon.Addon()
     # アドオン設定
-    key = addon.getSetting('key') #str
-    name = addon.getSetting('name')
-    mode = addon.getSetting('mode')
-    addon.setSetting('key','')
-    addon.setSetting('name','')
-    addon.setSetting('mode','create')
+    key = Const.GET('key') #str
+    name = Const.GET('name')
+    mode = Const.GET('mode')
+    Const.SET('key','')
+    Const.SET('name','')
+    Const.SET('mode','create')
 
     if action is None:
         # 曜日表記
-        w = addon.getLocalizedString(32900).encode('utf-8').split(',')
+        w = Const.STR(32900).encode('utf-8').split(',')
         # 履歴
         phonebook = PhoneBook('phonebook.json')
         history = History('history.json')
@@ -48,18 +47,18 @@ def main():
                 if phonebook.lookup(key1):
                     template2 = '[COLOR limegreen]%s[/COLOR]'
                     action = 'RunPlugin(%s?action=edit&key=%s&name=%s&mode=update)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
-                    menu.append((addon.getLocalizedString(32904), action))
+                    menu.append((Const.STR(32904), action))
                 else:
                     template2 = '[COLOR yellow]%s[/COLOR]'
                     action = 'RunPlugin(%s?action=edit&key=%s&name=%s&mode=append)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
-                    menu.append((addon.getLocalizedString(32903), action))
+                    menu.append((Const.STR(32903), action))
             else:
                 key1 = ''
                 template2 = '[COLOR orange]%s[/COLOR]'
             action = 'Container.Update(%s?action=browse)' % (sys.argv[0])
-            menu.append((addon.getLocalizedString(32907), action))
+            menu.append((Const.STR(32907), action))
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
-            menu.append((addon.getLocalizedString(32902), action))
+            menu.append((Const.STR(32902), action))
             # 書式
             if isholiday(date1) or weekday == 6:
                 template1 = '[COLOR red]%s[/COLOR]'
@@ -70,7 +69,7 @@ def main():
             template3 = '%s'
             template = '%s  %s  %s' % (template1, template2, template3)
             title = template % (datetime, name1, key1)
-            li = xbmcgui.ListItem(title, iconImage='DefaultUser.png', thumbnailImage='DefaultUser.png')
+            li = xbmcgui.ListItem(title, iconImage=Const.RINGER_VOLUME, thumbnailImage=Const.RINGER_VOLUME)
             li.addContextMenuItems(menu, replaceItems=True)
             # 履歴 - 追加
             url = ''
@@ -87,15 +86,15 @@ def main():
             name1 = name.encode('utf-8')
             # 電話帳エントリ - リストアイテム
             title = '[COLOR white]%s[/COLOR]  [COLOR limegreen]%s[/COLOR]' % (key1, name1)
-            li = xbmcgui.ListItem(title, iconImage='DefaultUser.png', thumbnailImage='DefaultUser.png')
+            li = xbmcgui.ListItem(title, iconImage=Const.CONTACTS, thumbnailImage=Const.CONTACTS)
             # 履歴 - コンテクストメニュー
             menu = []
             action = 'RunPlugin(%s?action=edit&key=%s&name=%s&mode=update)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
-            menu.append((addon.getLocalizedString(32905), action))
+            menu.append((Const.STR(32905), action))
             action = 'RunPlugin(%s?action=remove&key=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
-            menu.append((addon.getLocalizedString(32906), action))
+            menu.append((Const.STR(32906), action))
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
-            menu.append((addon.getLocalizedString(32902), action))
+            menu.append((Const.STR(32902), action))
             li.addContextMenuItems(menu, replaceItems=True)
             # リストアイテムを追加
             url = ''
@@ -107,10 +106,10 @@ def main():
         key = args.get('key', None) #str
         name = args.get('name', None)
         mode = args.get('mode', None)
-        addon.setSetting('key',key[0])
-        addon.setSetting('name',name[0])
-        addon.setSetting('mode',mode[0])
-        xbmc.executebuiltin('Addon.OpenSettings(%s)' % addon.getAddonInfo('id'))
+        aConst.SET('key',key[0])
+        aConst.SET('name',name[0])
+        aConst.SET('mode',mode[0])
+        xbmc.executebuiltin('Addon.OpenSettings(%s)' % ADDON_ID)
         xbmc.executebuiltin('SetFocus(101)') # phonebook category which is the 2nd
         xbmc.executebuiltin('SetFocus(200)') # key control which is the 1st including hidden controls
 
@@ -135,10 +134,10 @@ def main():
         xbmc.executebuiltin('Container.Refresh()')
 
     elif action[0] == 'clearSearch':
-        addon.setSetting('search','')
+        aConst.SET('search','')
 
     elif action[0] == 'settings':
-        xbmc.executebuiltin('Addon.OpenSettings(%s)' % addon.getAddonInfo('id'))
+        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Const.ADDON_ID)
 
 #-------------------------------------------------------------------------------
 if __name__  == '__main__': main()

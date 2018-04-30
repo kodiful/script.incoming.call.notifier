@@ -9,10 +9,10 @@ from phonebook import PhoneBook
 from history import History
 
 from common import log
+from const import Const
 
 # searchをインポート
-addon = xbmcaddon.Addon()
-path = addon.getSetting('search')
+path = Const.GET('search')
 if os.path.isfile(path):
     dirname = os.path.dirname(path)
     if os.path.samefile(path, os.path.join(dirname,'customsearch.py')):
@@ -63,16 +63,16 @@ class Lookup:
             # による
             elif key == 'Anonymous':
                 # ユーザ拒否のため通知不可
-                name = addon.getLocalizedString(32908).encode('utf-8')
+                name = Const.STR(32908).encode('utf-8')
             elif key == 'Coin line/payphone':
                 # 公衆電話発信のため通知不可
-                name = addon.getLocalizedString(32909).encode('utf-8')
+                name = Const.STR(32909).encode('utf-8')
             elif key == 'Unavailable':
                 # 通知可能な情報が存在しない
-                name = addon.getLocalizedString(32910).encode('utf-8')
+                name = Const.STR(32910).encode('utf-8')
             elif key == 'Interaction with other service':
                 # サービス競合のため通知不可
-                name = addon.getLocalizedString(32910).encode('utf-8')
+                name = Const.STR(32910).encode('utf-8')
         # 検索結果
         name = name or key or uri
         # 履歴に追加

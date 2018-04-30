@@ -5,6 +5,7 @@ import datetime
 import xbmc, xbmcaddon
 
 from common import log
+from const import Const
 
 #-------------------------------------------------------------------------------
 class History:
@@ -13,10 +14,8 @@ class History:
     data = None
 
     def __init__(self, filename):
-        addon = xbmcaddon.Addon()
-        profile = xbmc.translatePath(addon.getAddonInfo('profile'))
         self.filename = filename
-        self.filepath = os.path.join(profile, filename)
+        self.filepath = os.path.join(Const.PROFILE_PATH, filename)
         self.read()
 
     def read(self):
