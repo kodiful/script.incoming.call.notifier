@@ -106,10 +106,10 @@ def main():
         key = args.get('key', None) #str
         name = args.get('name', None)
         mode = args.get('mode', None)
-        aConst.SET('key',key[0])
-        aConst.SET('name',name[0])
-        aConst.SET('mode',mode[0])
-        xbmc.executebuiltin('Addon.OpenSettings(%s)' % ADDON_ID)
+        Const.SET('key',key[0])
+        Const.SET('name',name[0])
+        Const.SET('mode',mode[0])
+        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Const.ADDON_ID)
         xbmc.executebuiltin('SetFocus(101)') # phonebook category which is the 2nd
         xbmc.executebuiltin('SetFocus(200)') # key control which is the 1st including hidden controls
 
@@ -134,7 +134,7 @@ def main():
         xbmc.executebuiltin('Container.Refresh()')
 
     elif action[0] == 'clearSearch':
-        aConst.SET('search','')
+        Const.SET('search','')
 
     elif action[0] == 'settings':
         xbmc.executebuiltin('Addon.OpenSettings(%s)' % Const.ADDON_ID)
