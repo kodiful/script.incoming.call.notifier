@@ -5,6 +5,7 @@ import xbmc, xbmcaddon
 
 from common import log
 from const import Const
+from history import History
 
 #-------------------------------------------------------------------------------
 class PhoneBook:
@@ -51,6 +52,8 @@ class PhoneBook:
         if key and name:
             self.data[key] = name
             self.write()
+            # 履歴を更新する
+            History('history.json').update(key, name)
 
     def remove(self, key=None, name=None):
         if isinstance(key, str): key = key.decode('utf-8')

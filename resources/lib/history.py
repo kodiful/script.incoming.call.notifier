@@ -50,6 +50,12 @@ class History:
         self.data.append(data)
         self.write()
 
+    def update(self, key, name):
+        for data in self.data:
+            if data['key'] == key:
+                data['name'] = name
+        self.write()
+
     def clear(self):
         if os.path.isfile(self.filepath):
             os.remove(self.filepath)
