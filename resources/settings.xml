@@ -8,7 +8,7 @@
   <category label="32000">
     <setting label="32001" id="port" type="number" default="5060"/>
     <setting label="32002" id="domain" type="ipaddress" default="192.168.1.1"/>
-    <setting label="32004" id="extension" type="text" default=""/>
+    <setting label="32004" id="extension" type="number" default=""/>
     <setting label="32003" id="realm" type="text" default=""/>
     <setting label="32005" id="username" type="text" default="" enable="!eq(-1,)"/>
     <setting label="32006" id="password" type="text" option="hidden" default="" enable="!eq(-2,)"/>
@@ -16,18 +16,18 @@
   </category>
   <category label="32200">
     <setting id="mode" type="text" default="create" visible="False"/>
-    <setting label="32201" id="key" type="text" default="" enable="eq(-1,create)"/>
+    <setting label="32201" id="key" type="number" default="" enable="eq(-1,create)"/>
     <setting label="32202" id="name" type="text" default=""/>
-    <setting label="32203" type="action" option="close" action="RunPlugin(plugin://$ID/?action=update)" enable="!eq(-1,)+!eq(-2,)" visible="eq(-3,create)|eq(-3,append)"/>
-    <setting label="32204" type="action" option="close" action="RunPlugin(plugin://$ID/?action=update)" enable="!eq(-2,)+!eq(-3,)" visible="eq(-4,update)"/>
+    <setting label="32203" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-1,)+!eq(-2,)" visible="eq(-3,create)|eq(-3,add)"/>
+    <setting label="32204" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-2,)+!eq(-3,)" visible="eq(-4,edit)"/>
   </category>
   <category label="32100">
     <setting label="32101" id="duration" type="labelenum" values="5|10|20|30|60" default="10"/>
     <setting label="32102" id="cec" type="bool" default="true"/>
     <setting label="32105" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearCache)"/>
     <setting label="32106" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearHistory)"/>
-    <setting label="32103" id="search" type="file" default=""/>
-    <setting label="32107" type="action" action="RunPlugin(plugin://$ID/?action=clearSearch)" enable="!eq(-1,)"/>
+    <setting label="32103" id="customsearch" type="file" default=""/>
+    <setting label="32107" type="action" action="RunPlugin(plugin://$ID/?action=clearCustomSearch)" enable="!eq(-1,)"/>
     <setting label="32104" id="debug" type="bool" default="false"/>
   </category>
   <category label="32300">

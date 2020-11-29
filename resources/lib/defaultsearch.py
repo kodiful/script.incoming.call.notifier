@@ -2,7 +2,7 @@
 
 import urllib
 from bs4 import BeautifulSoup
-from common import log
+from common import *
 
 def search(key):
     try:
@@ -15,7 +15,7 @@ def search(key):
             # タグ抽出
             html = res.read()
             soup = BeautifulSoup(html, 'html.parser')
-            name = soup.find('td',{'itemprop':'name'}).get_text().strip()
+            name = soup.find('td',{'itemprop':'name'}).get_text().strip().encode('utf-8')
         else:
             name = None
         res.close()

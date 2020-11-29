@@ -2,6 +2,61 @@
 
 import os, inspect
 import xbmc, xbmcaddon
+import json
+
+
+# workaround for encoding problems
+
+def convert(obj, strip=False):
+    if isinstance(obj, dict):
+        obj1 = {}
+        for key, val in obj.items():
+            obj1[convert(key)] = convert(val, strip)
+        return obj1
+    elif isinstance(obj, list):
+        return map(lambda x: convert(x, strip), obj)
+    elif isinstance(obj, unicode):
+        return convert(obj.encode('utf-8'), strip)
+    elif isinstance(obj, str):
+        if strip:
+            obj = re.sub(r'(?:　|\r\n|\n|\t)', ' ', obj) # 全角スペース、改行、タブを半角スペースに置換
+            obj = re.sub(r'\s{2,}',            ' ', obj) # 二つ以上続く半角スペースは一つに置換
+            obj = re.sub(r'(^\s+|\s+$)',        '', obj) # 先頭と末尾の半角スペースを削除
+        return obj
+    else:
+        return obj
+
+
+# file i/o
+
+def read_file(filepath):
+    if os.path.isfile(filepath) and os.path.getsize(filepath) > 0:
+        with open(filepath, 'r') as f:
+            data = f.read()
+        return data
+    else:
+        return None
+
+def write_file(filepath, data):
+    with open(filepath, 'w') as f:
+        f.write(data)
+
+def read_json(filepath):
+    data = read_file(filepath)
+    if data:
+        try:
+            return convert(json.loads(data))
+        except exceptions.ValueError as e:
+            log(filepath, str(e), error=True)
+            return None
+    else:
+        return None
+
+def write_json(filepath, data):
+    write_file(filepath, json.dumps(data, sort_keys=True, ensure_ascii=False, indent=4))
+
+
+# utilities
 
 def notify(message, **options):
     time = options.get('time', 10000)
