@@ -51,41 +51,47 @@ class History:
         # 履歴表示
         for h in reversed(self.data):
             # 履歴
-            date1 = h['date']
-            time1 = h['time']
-            weekday = h['weekday']
-            uri1 = h['uri']
-            key1 = h['key']
-            name1 = h['name']
-            datetime = '%s(%s) %s' % (date1, w[weekday], time1)
+            date = h['date']
+            time = h['time']
+            wday = h['weekday']
+            uri = h['uri']
+            key = h['key']
+            name = h['name']
+            datetime = '%s(%s) %s' % (date, w[wday], time)
             # コンテクストメニュー
             menu = []
-            if re.compile('^0[0-9]{8,}').search(key1):
-                if PhoneBook().lookup(key1):
-                    template2 = '[COLOR limegreen]%s[/COLOR]'
-                    action = 'RunPlugin(%s?action=beginEditPhoneBookItem&key=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
+            if re.compile('^0[0-9]{8,}').search(key):
+                if PhoneBook().lookup(key):
+                    template2 = '[COLOR lightgreen]%s[/COLOR]'
+                    action = 'RunPlugin({url}?action=beginEditPhoneBookItem&{query})'.format(url=sys.argv[0], query=urllib.urlencode({
+                        'key': key,
+                        'name': name
+                    }))
                     menu.append((Const.STR(32904), action))
                 else:
-                    template2 = '[COLOR yellow]%s[/COLOR]'
-                    action = 'RunPlugin(%s?action=addPhoneBookItem&key=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(key1), urllib.quote_plus(name1))
+                    template2 = '[COLOR khaki]%s[/COLOR]'
+                    action = 'RunPlugin({url}?action=addPhoneBookItem&{query})'.format(url=sys.argv[0], query=urllib.urlencode({
+                        'key': key,
+                        'name': name
+                    }))
                     menu.append((Const.STR(32903), action))
             else:
-                key1 = ''
+                key = ''
                 template2 = '[COLOR orange]%s[/COLOR]'
             action = 'Container.Update(%s?action=showPhoneBook)' % (sys.argv[0])
             menu.append((Const.STR(32907), action))
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
             menu.append((Const.STR(32902), action))
             # 書式
-            if isholiday(date1) or weekday == 6:
+            if isholiday(date) or wday == 6:
                 template1 = '[COLOR red]%s[/COLOR]'
-            elif weekday == 5:
+            elif wday == 5:
                 template1 = '[COLOR blue]%s[/COLOR]'
             else:
                 template1 = '%s'
             template3 = '%s'
-            template = '%s  %s  %s' % (template1, template2, template3)
-            title = template % (datetime, name1, key1)
+            template = '%s  %s  %s' % (template1, template3, template2)
+            title = template % (datetime, key, name)
             li = xbmcgui.ListItem(title, iconImage=Const.RINGER_VOLUME, thumbnailImage=Const.RINGER_VOLUME)
             li.addContextMenuItems(menu, replaceItems=True)
             # 履歴 - 追加

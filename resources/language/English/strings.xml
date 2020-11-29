@@ -18,17 +18,17 @@
   <string id="32200">Phone Book</string>
   <string id="32201">Number</string>
   <string id="32202">Name</string>
-  <string id="32203">[COLOR green]Add to phonebook[/COLOR]</string>
-  <string id="32204">[COLOR green]Update phonebook[/COLOR]</string>
+  <string id="32203">[COLOR lightgreen]Add to phonebook[/COLOR]</string>
+  <string id="32204">[COLOR lightgreen]Update phonebook[/COLOR]</string>
 
   <string id="32100">Other Settings</string>
   <string id="32101">Duration</string>
   <string id="32102">Switch screen on incoming</string>
   <string id="32103">Path to customsearch.py</string>
   <string id="32104">Debug</string>
-  <string id="32105">[COLOR green]Clear cache[/COLOR]</string>
-  <string id="32106">[COLOR green]Clear history[/COLOR]</string>
-  <string id="32107">[COLOR green]Clear path to customsearch.py[/COLOR]</string>
+  <string id="32105">[COLOR lightgreen]Clear cache[/COLOR]</string>
+  <string id="32106">[COLOR lightgreen]Clear history[/COLOR]</string>
+  <string id="32107">[COLOR lightgreen]Clear path to customsearch.py[/COLOR]</string>
 
   <string id="32300">Mail Notify</string>
   <string id="32301">Notify incoming call by mail</string>

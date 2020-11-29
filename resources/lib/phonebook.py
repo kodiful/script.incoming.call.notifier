@@ -35,7 +35,7 @@ class PhoneBook:
     def show(self):
         for key, name in sorted(self.data.items()):
             # 電話帳エントリ - リストアイテム
-            title = '[COLOR white]%s[/COLOR]  [COLOR limegreen]%s[/COLOR]' % (key, name)
+            title = '%s [COLOR lightgreen]%s[/COLOR]' % (key, name)
             li = xbmcgui.ListItem(title, iconImage=Const.CONTACTS, thumbnailImage=Const.CONTACTS)
             # 履歴 - コンテクストメニュー
             menu = []

@@ -18,17 +18,17 @@
   <string id="32200">電話帳</string>
   <string id="32201">番号</string>
   <string id="32202">名前</string>
-  <string id="32203">[COLOR green]電話帳に追加する[/COLOR]</string>
-  <string id="32204">[COLOR green]電話帳を更新する[/COLOR]</string>
+  <string id="32203">[COLOR lightgreen]電話帳に追加する[/COLOR]</string>
+  <string id="32204">[COLOR lightgreen]電話帳を更新する[/COLOR]</string>
 
   <string id="32100">その他</string>
   <string id="32101">表示時間</string>
   <string id="32102">着信時に画面を切り替える</string>
   <string id="32103">customsearch.pyのパス</string>
   <string id="32104">デバッグ</string>
-  <string id="32105">[COLOR green]キャッシュをクリアする[/COLOR]</string>
-  <string id="32106">[COLOR green]着信履歴をクリアする[/COLOR]</string>
-  <string id="32107">[COLOR green]customsearch.pyのパスをクリアする[/COLOR]</string>
+  <string id="32105">[COLOR lightgreen]キャッシュをクリアする[/COLOR]</string>
+  <string id="32106">[COLOR lightgreen]着信履歴をクリアする[/COLOR]</string>
+  <string id="32107">[COLOR lightgreen]customsearch.pyのパスをクリアする[/COLOR]</string>
 
   <string id="32300">メール通知</string>
   <string id="32301">メールで着信を通知する</string>
