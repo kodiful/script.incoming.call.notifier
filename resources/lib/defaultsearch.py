@@ -1,26 +1,31 @@
 # -*- coding: utf-8 -*-
 
-import urllib
+import re
+
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from common import *
+
+from resources.lib.common import Common
+
 
 def search(key):
     try:
         # 番号案内ページのURL
         url = 'https://www.telnavi.jp/phone/%s' % key
         # ページ読み込み
-        res = urllib.urlopen(url)
+        res = urlopen(url)
         status = res.getcode()
         if status == 200:
             # タグ抽出
             html = res.read()
             soup = BeautifulSoup(html, 'html.parser')
-            name = soup.find('td',{'itemprop':'name'}).get_text().strip().encode('utf-8')
+            title = soup.find('title').get_text()
+            name = re.sub(r'電話番号[0-9]+は', '', title)
         else:
             name = None
         res.close()
-        log('key=%s name=%s status=%s url=%s' % (key, name, status, url))
+        Common.log('key=%s name=%s status=%s url=%s' % (key, name, status, url))
     except Exception as e:
         name = None
-        log(e)
+        Common.log(e)
     return name

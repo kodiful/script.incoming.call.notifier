@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import os
-import urllib
-import xbmc, xbmcgui, xbmcplugin, xbmcaddon
+import xbmc
+import xbmcgui
+import xbmcplugin
 
-from common import *
-from const import Const
+from urllib.parse import quote_plus
+
+from resources.lib.common import Common
 
 
 class PhoneBook:
 
-    def __init__(self, filepath=Const.PHONEBOOK_FILE):
+    def __init__(self, filepath=Common.PHONEBOOK_FILE):
         self.filepath = filepath
         self.read()
 
     def read(self):
-        self.data = read_json(self.filepath) or {}
+        self.data = Common.read_json(self.filepath) or {}
 
     def write(self):
-        write_json(self.filepath, self.data)
+        Common.write_json(self.filepath, self.data)
 
     def lookup(self, key=None):
         return self.data.get(key) if key else None
@@ -36,15 +37,16 @@ class PhoneBook:
         for key, name in sorted(self.data.items()):
             # 電話帳エントリ - リストアイテム
             title = '%s [COLOR lightgreen]%s[/COLOR]' % (key, name)
-            li = xbmcgui.ListItem(title, iconImage=Const.CONTACTS, thumbnailImage=Const.CONTACTS)
+            li = xbmcgui.ListItem(title)
+            li.setArt({'icon': Common.CONTACTS, 'thumb': Common.CONTACTS})
             # 履歴 - コンテクストメニュー
             menu = []
-            action = 'RunPlugin(%s?action=beginEditPhoneBookItem&key=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(key), urllib.quote_plus(name))
-            menu.append((Const.STR(32905), action))
-            action = 'RunPlugin(%s?action=removePhoneBookItem&key=%s&name=%s)' % (sys.argv[0], urllib.quote_plus(key), urllib.quote_plus(name))
-            menu.append((Const.STR(32906), action))
+            action = 'RunPlugin(%s?action=beginEditPhoneBookItem&key=%s&name=%s)' % (sys.argv[0], quote_plus(key), quote_plus(name))
+            menu.append((Common.STR(32905), action))
+            action = 'RunPlugin(%s?action=removePhoneBookItem&key=%s&name=%s)' % (sys.argv[0], quote_plus(key), quote_plus(name))
+            menu.append((Common.STR(32906), action))
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
-            menu.append((Const.STR(32902), action))
+            menu.append((Common.STR(32902), action))
             li.addContextMenuItems(menu, replaceItems=True)
             # リストアイテムを追加
             url = ''
@@ -53,12 +55,11 @@ class PhoneBook:
         xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
     def beginEdit(self, key, name, mode):
-        Const.SET('key', key)
-        Const.SET('name', name)
-        Const.SET('mode', mode) # modeはコンテクストに応じた設定画面表示のために使用
-        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Const.ADDON_ID)
-        xbmc.executebuiltin('SetFocus(101)') # phonebook category which is the 2nd
-        xbmc.executebuiltin('SetFocus(200)') # key control which is the 1st including hidden controls
+        Common.SET('key', key)
+        Common.SET('name', name)
+        Common.SET('mode', mode)  # modeはコンテクストに応じた設定画面表示のために使用
+        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Common.ADDON_ID)
+        xbmc.executebuiltin('SetFocus(-99)')
 
     def endEdit(self, key, name):
         self.data[key] = name

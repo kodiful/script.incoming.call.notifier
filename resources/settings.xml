@@ -12,11 +12,10 @@
     <setting label="32003" id="realm" type="text" default=""/>
     <setting label="32005" id="username" type="text" default="" enable="!eq(-1,)"/>
     <setting label="32006" id="password" type="text" option="hidden" default="" enable="!eq(-2,)"/>
-    <setting label="32007" id="pjsua" type="file" default=""/>
   </category>
   <category label="32200">
     <setting id="mode" type="text" default="create" visible="False"/>
-    <setting label="32201" id="key" type="number" default="" enable="eq(-1,create)"/>
+    <setting label="32201" id="key" type="text" default="" enable="eq(-1,create)"/>
     <setting label="32202" id="name" type="text" default=""/>
     <setting label="32203" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-1,)+!eq(-2,)" visible="eq(-3,create)|eq(-3,add)"/>
     <setting label="32204" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-2,)+!eq(-3,)" visible="eq(-4,edit)"/>

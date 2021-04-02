@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import urlparse
-import xbmc, xbmcgui, xbmcplugin, xbmcaddon
+import xbmc
 
-from resources.lib.common import *
+from urllib.parse import parse_qs
+
+from resources.lib.common import Common
 from resources.lib.history import History
 from resources.lib.phonebook import PhoneBook
-from resources.lib.const import Const
 
 
-if __name__  == '__main__':
+if __name__ == '__main__':
 
     # 引数
-    args = urlparse.parse_qs(sys.argv[2][1:], keep_blank_values=True)
+    args = parse_qs(sys.argv[2][1:], keep_blank_values=True)
     for key in args.keys():
         args[key] = args[key][0]
     action = args.get('action', 'showHistory')
 
     # アドオン設定
     settings = {}
-    for key in ('key','name'):
-        settings[key] = Const.GET(key)
-    Const.SET('key','')
-    Const.SET('name','')
-    Const.SET('mode','create')
+    for key in ('key', 'name'):
+        settings[key] = Common.GET(key)
+    Common.SET('key', '')
+    Common.SET('name', '')
+    Common.SET('mode', 'create')
 
     # actionに応じた処理
 
@@ -66,11 +66,11 @@ if __name__  == '__main__':
 
     # キャッシュ
     elif action == 'clearCache':
-        PhoneBook(Const.CACHE_FILE).clear()
+        PhoneBook(Common.CACHE_FILE).clear()
         xbmc.executebuiltin('Container.Refresh()')
 
     # 設定画面
     elif action == 'clearCustomSearch':
-        Const.SET('customsearch','')
+        Common.SET('customsearch', '')
     elif action == 'settings':
-        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Const.ADDON_ID)
+        xbmc.executebuiltin('Addon.OpenSettings(%s)' % Common.ADDON_ID)
