@@ -186,13 +186,17 @@ if __name__ == '__main__':
         ac_cfg.sipConfig.authCreds.append(cred)
 
     # create the account
-    ac = Account();
-    ac.create(ac_cfg);
+    ac = Account()
+    ac.create(ac_cfg)
 
     # monitor loop
     monitor = Monitor()
     while not monitor.abortRequested():
+        # check abortion
         if monitor.waitForAbort(monitor.interval):
+            break
+        # check status
+        if ac.getInfo().regStatus > 200:
             break
         # check expiration
         if ac.getInfo().regExpiresSec < 0:
@@ -202,5 +206,8 @@ if __name__ == '__main__':
         if status < 0:
             Common.notify('SIP event handler failed (%d)' % status, time=3000)
 
-    # Destroy the library
+    # shutdown the account
+    ac.shutdown()
+
+    # destroy the library
     ep.libDestroy()
