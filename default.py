@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import os
 import xbmc
 
 from urllib.parse import parse_qs
@@ -71,11 +70,6 @@ if __name__ == '__main__':
         xbmc.executebuiltin('Container.Refresh()')
 
     # 設定画面
-    elif action == 'reset':
-        if os.path.isfile(Common.PY_FILE):
-            os.remove(Common.PY_FILE)
-        if os.path.isfile(Common.SO_FILE):
-            os.remove(Common.SO_FILE)
     elif action == 'clearCustomSearch':
         Common.SET('customsearch', '')
     elif action == 'settings':

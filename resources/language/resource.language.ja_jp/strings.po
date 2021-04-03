@@ -48,10 +48,6 @@ msgctxt "#32007"
 msgid "Path to pjsua2.py"
 msgstr "pjsua2.pyのパス"
 
-msgctxt "#32008"
-msgid "[COLOR lightgreen]Reset pjsua2.py[/COLOR]"
-msgstr "[COLOR lightgreen]pjsua2.pyをリセットする[/COLOR]"
-
 msgctxt "#32100"
 msgid "Other Settings"
 msgstr "その他"

@@ -11,20 +11,19 @@ import xbmcaddon
 from resources.lib.common import Common
 from resources.lib.lookup import lookup
 
-# pjsua2をインポート
+# pjsua2.pyのパス設定を取得
 srcfile = Common.GET('pjsua2')
-if not os.path.isfile(srcfile):
+# 設定をチェック
+if not os.path.isfile(srcfile) or os.path.basename(srcfile) != 'pjsua2.py':
     Common.ADDON.openSettings()
     sys.exit()
 try:
-    # copy pjsua2.py if neccessary
-    if not os.path.isfile(Common.PY_FILE):
-        shutil.copy(srcfile, Common.PY_FILE)
-    # copy _pjsua2.so if neccessary
-    if not os.path.isfile(Common.SO_FILE):
-        srcfile = glob.glob(os.path.join(os.path.dirname(srcfile), '_pjsua2*.so'))[0]
-        shutil.copy(srcfile, Common.SO_FILE)
-    # do import
+    # pjsua2.pyをコピー
+    shutil.copy(srcfile, Common.PY_FILE)
+    # _pjsua2.soをコピー
+    srcfile = glob.glob(os.path.join(os.path.dirname(srcfile), '_pjsua2*.so'))[0]
+    shutil.copy(srcfile, Common.SO_FILE)
+    # インポート実行
     from resources.pjsua2 import pjsua2 as pj
 except Exception as e:
     Common.notify('Importing pjsua2 failed', time=3000, error=True)

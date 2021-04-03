@@ -13,7 +13,6 @@
     <setting label="32005" id="username" type="text" default="" enable="!eq(-1,)"/>
     <setting label="32006" id="password" type="text" option="hidden" default="" enable="!eq(-2,)"/>
     <setting label="32007" id="pjsua2" type="file" default=""/>
-    <setting label="32008" type="action" option="close" action="RunPlugin(plugin://$ID/?action=reset)" enable="!eq(-1,)"/>
   </category>
   <category label="32200">
     <setting id="mode" type="text" default="create" visible="False"/>
