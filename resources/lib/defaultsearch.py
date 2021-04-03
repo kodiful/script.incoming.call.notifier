@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import re
 import urllib
+
 from bs4 import BeautifulSoup
 from common import *
+
 
 def search(key):
     try:
@@ -15,7 +18,8 @@ def search(key):
             # タグ抽出
             html = res.read()
             soup = BeautifulSoup(html, 'html.parser')
-            name = soup.find('td',{'itemprop':'name'}).get_text().strip().encode('utf-8')
+            title = soup.find('title').get_text().encode('utf-8')
+            name = re.sub(r'電話番号[0-9]+は', '', title)
         else:
             name = None
         res.close()
