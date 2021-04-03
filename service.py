@@ -2,6 +2,8 @@
 
 import sys
 import os
+import glob
+import shutil
 import urllib
 import xbmc
 import xbmcaddon
@@ -9,8 +11,25 @@ import xbmcaddon
 from resources.lib.common import Common
 from resources.lib.lookup import lookup
 
-from resources.pjsua2 import pjsua2 as pj
-
+# pjsua2をインポート
+srcfile = Common.GET('pjsua2')
+if not os.path.isfile(srcfile):
+    Common.ADDON.openSettings()
+    sys.exit()
+try:
+    # copy pjsua2.py if neccessary
+    if not os.path.isfile(Common.PY_FILE):
+        shutil.copy(srcfile, Common.PY_FILE)
+    # copy _pjsua2.so if neccessary
+    if not os.path.isfile(Common.SO_FILE):
+        srcfile = glob.glob(os.path.join(os.path.dirname(srcfile), '_pjsua2*.so'))[0]
+        shutil.copy(srcfile, Common.SO_FILE)
+    # do import
+    from resources.pjsua2 import pjsua2 as pj
+except Exception as e:
+    Common.notify('Importing pjsua2 failed', time=3000, error=True)
+    Common.log(e)
+    sys.exit()
 
 # 電子メールクライアントの有無を確認
 try:
@@ -84,7 +103,7 @@ class Account(pj.Account):
         if param.code == 200:
             Common.notify('Registered as SIP client', time=3000)
         else:
-            Common.notify('SIP registration failed (%d)' % param.code, time=3000)
+            Common.notify('SIP registration failed (%d)' % param.code, time=3000, error=True)
 
     def onIncomingCall(self, param):
         # ログ
@@ -204,7 +223,7 @@ if __name__ == '__main__':
         # handle events
         status = ep.libHandleEvents(10)
         if status < 0:
-            Common.notify('SIP event handler failed (%d)' % status, time=3000)
+            Common.notify('SIP event handler failed (%d)' % status, time=3000, error=True)
 
     # shutdown the account
     ac.shutdown()

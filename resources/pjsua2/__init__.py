@@ -1,6 +1,1 @@
-# -*- coding: utf-8 -*-
-
-import sys
-
-if sys.platform == 'darwin':
-    from resources.pjsua2.darwin import pjsua2
+# Dummy file to make this directory a package.

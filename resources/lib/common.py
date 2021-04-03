@@ -10,6 +10,11 @@ class Common(C):
     RESOURCES_PATH = os.path.join(C.PLUGIN_PATH, 'resources')
     DATA_PATH = os.path.join(RESOURCES_PATH, 'data')
     IMAGE_PATH = os.path.join(DATA_PATH, 'image')
+    PJSUA2_PATH = os.path.join(C.PLUGIN_PATH, 'resources', 'pjsua2')
+
+    # スクリプトパス
+    PY_FILE = os.path.join(PJSUA2_PATH, 'pjsua2.py')
+    SO_FILE = os.path.join(PJSUA2_PATH, '_pjsua2.so')
 
     # ファイルパス
     HISTORY_FILE = os.path.join(C.PROFILE_PATH, 'history.json')
