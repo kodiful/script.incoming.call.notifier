@@ -177,7 +177,7 @@ msgid "Unavailable"
 msgstr ""
 
 msgctxt "#32913"
-msgid "Incoming call from {name}<{key}>"
+msgid "Incoming call from {name}<{key}> to <{local}>"
 msgstr ""
 
 msgctxt "#32990"

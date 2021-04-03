@@ -177,8 +177,8 @@ msgid "Unavailable"
 msgstr "通知不可"
 
 msgctxt "#32913"
-msgid "Incoming call from {name}<{key}>"
-msgstr "{name}<{key}>から着信"
+msgid "Incoming call from {name}<{key}> to <{local}>"
+msgstr "{name}<{key}>から<{local}>に着信"
 
 msgctxt "#32990"
 msgid "Additional addon neccessary"

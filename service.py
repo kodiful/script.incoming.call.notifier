@@ -4,11 +4,13 @@ import sys
 import os
 import glob
 import shutil
-import urllib
 import xbmc
 import xbmcaddon
 
+from urllib.parse import urlencode
+
 from resources.lib.common import Common
+from resources.lib.lookup import parse
 from resources.lib.lookup import lookup
 
 # pjsua2.pyのパス設定を取得
@@ -148,6 +150,7 @@ class Account(pj.Account):
             xbmc.executebuiltin('CECActivateSource')
         # 発信者番号から番号検索
         name, key = lookup(info.remoteUri)
+        local = parse(info.localUri)
         # 通知
         duration = Common.GET('duration')
         Common.notify(name, time=int(duration) * 1000)
@@ -155,18 +158,23 @@ class Account(pj.Account):
         if Common.GET('mailaddon') and Common.GET('mailnotify') == 'true':
             template = Common.GET('mailtemplate') or Common.STR(32913)
             address = Common.GET('mailaddress')
-            message = template.format(name=name, key=key, uri=uri)
-            values = {'action': 'send', 'subject': message, 'message': message, 'to': address}
-            postdata = urllib.urlencode(values)
-            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (mailaddon, postdata))
+            message = template.format(name=name, key=key, local=local)
+            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (Common.GET('mailaddon'), urlencode({
+                'action': 'send',
+                'subject': message,
+                'message': message,
+                'to': address
+            })))
         # LINE notifyによる通知
         if Common.GET('lineaddon') and Common.GET('linenotify') == 'true':
             template = Common.GET('linetemplate') or Common.STR(32913)
             token = Common.GET('linetoken')
-            message = template.format(name=name, key=key, uri=uri)
-            values = {'action': 'send', 'name': token, 'message': message}
-            postdata = urllib.urlencode(values)
-            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (lineaddon, postdata))
+            message = template.format(name=name, key=key, local=local)
+            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (Common.GET('lineaddon'), urlencode({
+                'action': 'send',
+                'name': token,
+                'message': message
+            })))
 
 
 if __name__ == '__main__':
