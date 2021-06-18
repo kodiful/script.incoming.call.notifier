@@ -25,6 +25,10 @@ class PhoneBook:
     def lookup(self, key=None):
         return self.data.get(key) if key else None
 
+    def update(self, key, name):
+        self.data[key] = name
+        self.write()
+
     def remove(self, key):
         self.data.pop(key)
         self.write()
