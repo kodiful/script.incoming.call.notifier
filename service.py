@@ -125,22 +125,21 @@ class Account(pj.Account):
         # 発信者番号から番号検索
         name, key = lookup(info.remoteUri)
         local = parse(info.localUri)
-        # 通知
-        if Common.GET('notifier'):
-            # 外部アドオンに通知
+        # ディスプレイに通知
+        Common.notify(name, time=3000)
+        # 外部アドオンに通知
+        notifier = Common.GET('notifier')
+        if notifier:
             try:
-                notifier = Common.GET('notifier')
                 xbmcaddon.Addon(notifier)
-                template = Common.STR(32913)  # "{name}<{key}>から<{local}>に着信"
+                template = Common.STR(32913)  # "{name}<{key}>から<{local}>に着信がありました"
                 message = template.format(name=name, key=key, local=local)
                 xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (notifier, urlencode({
                     'addon': Common.ADDON_NAME,
                     'message': message
                 })))
             except Exception:
-                Common.log('Invalid notifier', error=True)
-        else:
-            Common.notify(name, time=3000)
+                Common.log('Notifier error', error=True)
 
 
 if __name__ == '__main__':
