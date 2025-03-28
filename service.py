@@ -24,6 +24,9 @@ else:
 
 # pjsua2をインポート
 try:
+    # コピー先のディレクトリを用
+    dir = os.path.dirname(Common.PY_FILE)
+    os.makedirs(dir, exist_ok=True)
     # pjsua2.pyをコピー
     shutil.copy(path, Common.PY_FILE)
     # _pjsua2.soをコピー
