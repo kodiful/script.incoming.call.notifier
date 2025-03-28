@@ -52,17 +52,13 @@ msgctxt "#32100"
 msgid "Other Settings"
 msgstr "その他"
 
-msgctxt "#32101"
-msgid "Duration"
-msgstr "表示時間"
-
 msgctxt "#32102"
 msgid "Switch screen on incoming"
 msgstr "着信時に画面を切り替える"
 
 msgctxt "#32103"
-msgid "Path to customsearch.py"
-msgstr "customsearch.pyのパス"
+msgid "Notifier addon"
+msgstr "着信通知用アドオン"
 
 msgctxt "#32104"
 msgid "Debug"
@@ -75,10 +71,6 @@ msgstr "[COLOR lightgreen]キャッシュをクリアする[/COLOR]"
 msgctxt "#32106"
 msgid "[COLOR lightgreen]Clear history[/COLOR]"
 msgstr "[COLOR lightgreen]着信履歴をクリアする[/COLOR]"
-
-msgctxt "#32107"
-msgid "[COLOR lightgreen]Clear path to customsearch.py[/COLOR]"
-msgstr "[COLOR lightgreen]customsearch.pyのパスをクリアする[/COLOR]"
 
 msgctxt "#32200"
 msgid "Phone Book"
@@ -99,38 +91,6 @@ msgstr "[COLOR lightgreen]電話帳に追加する[/COLOR]"
 msgctxt "#32204"
 msgid "[COLOR lightgreen]Update phonebook[/COLOR]"
 msgstr "[COLOR lightgreen]電話帳を更新する[/COLOR]"
-
-msgctxt "#32300"
-msgid "Mail Notify"
-msgstr "メール通知"
-
-msgctxt "#32301"
-msgid "Notify incoming call by mail"
-msgstr "メールで着信を通知する"
-
-msgctxt "#32302"
-msgid "Mail address"
-msgstr "あて先メールアドレス"
-
-msgctxt "#32303"
-msgid "Message"
-msgstr "メッセージ"
-
-msgctxt "#32400"
-msgid "LINE Notify"
-msgstr "LINE通知"
-
-msgctxt "#32401"
-msgid "Notify incoming call by LINE"
-msgstr "LINEで着信を通知する"
-
-msgctxt "#32402"
-msgid "Token name"
-msgstr "あて先トークン名"
-
-msgctxt "#32403"
-msgid "Message"
-msgstr "メッセージ"
 
 msgctxt "#32900"
 msgid "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
@@ -178,7 +138,7 @@ msgstr "通知不可"
 
 msgctxt "#32913"
 msgid "Incoming call from {name}<{key}> to <{local}>"
-msgstr "{name}<{key}>から<{local}>に着信"
+msgstr "{name}<{key}>から<{local}>に着信がありました"
 
 msgctxt "#32990"
 msgid "Additional addon neccessary"

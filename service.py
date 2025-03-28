@@ -14,56 +14,27 @@ from resources.lib.lookup import parse
 from resources.lib.lookup import lookup
 
 # pjsua2.pyのパス設定を取得
-srcfile = Common.GET('pjsua2')
+path = Common.GET('pjsua2')
 # 設定をチェック
-if not os.path.isfile(srcfile) or os.path.basename(srcfile) != 'pjsua2.py':
+if os.path.isfile(path) and os.path.basename(path) == 'pjsua2.py':
+    pass
+else:
     Common.ADDON.openSettings()
     sys.exit()
+
+# pjsua2をインポート
 try:
     # pjsua2.pyをコピー
-    shutil.copy(srcfile, Common.PY_FILE)
+    shutil.copy(path, Common.PY_FILE)
     # _pjsua2.soをコピー
-    srcfile = glob.glob(os.path.join(os.path.dirname(srcfile), '_pjsua2*.so'))[0]
-    shutil.copy(srcfile, Common.SO_FILE)
+    path = glob.glob(os.path.join(os.path.dirname(path), '_pjsua2*.so'))[0]
+    shutil.copy(path, Common.SO_FILE)
     # インポート実行
     from resources.pjsua2 import pjsua2 as pj
 except Exception as e:
     Common.notify('Importing pjsua2 failed', time=3000, error=True)
     Common.log(e)
     sys.exit()
-
-# 電子メールクライアントの有無を確認
-try:
-    mailaddon = 'script.handler.email'
-    xbmcaddon.Addon(mailaddon)
-    Common.SET('mailaddon', mailaddon)
-except Exception:
-    Common.SET('mailaddon', '')
-
-# LINE Notifyハンドラの有無を確認
-try:
-    lineaddon = 'script.handler.line.notify'
-    xbmcaddon.Addon(lineaddon)
-    Common.SET('lineaddon', lineaddon)
-except Exception:
-    Common.SET('lineaddon', '')
-
-
-class Monitor(xbmc.Monitor):
-
-    interval = 1
-
-    def __init__(self, *args, **kwargs):
-        super().__init__()
-
-    def onSettingsChanged(self):
-        Common.log('settings changed')
-
-    def onScreensaverActivated(self):
-        Common.log('screensaver activated')
-
-    def onScreensaverDeactivated(self):
-        Common.log('screensaver deactivated')
 
 
 class Account(pj.Account):
@@ -152,29 +123,21 @@ class Account(pj.Account):
         name, key = lookup(info.remoteUri)
         local = parse(info.localUri)
         # 通知
-        duration = Common.GET('duration')
-        Common.notify(name, time=int(duration) * 1000)
-        # メールによる通知
-        if Common.GET('mailaddon') and Common.GET('mailnotify') == 'true':
-            template = Common.GET('mailtemplate') or Common.STR(32913)
-            address = Common.GET('mailaddress')
-            message = template.format(name=name, key=key, local=local)
-            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (Common.GET('mailaddon'), urlencode({
-                'action': 'send',
-                'subject': message,
-                'message': message,
-                'to': address
-            })))
-        # LINE notifyによる通知
-        if Common.GET('lineaddon') and Common.GET('linenotify') == 'true':
-            template = Common.GET('linetemplate') or Common.STR(32913)
-            token = Common.GET('linetoken')
-            message = template.format(name=name, key=key, local=local)
-            xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (Common.GET('lineaddon'), urlencode({
-                'action': 'send',
-                'name': token,
-                'message': message
-            })))
+        if Common.GET('notifier'):
+            # 外部アドオンに通知
+            try:
+                notifier = Common.GET('notifier')
+                xbmcaddon.Addon(notifier)
+                template = Common.STR(32913)  # "{name}<{key}>から<{local}>に着信"
+                message = template.format(name=name, key=key, local=local)
+                xbmc.executebuiltin('RunPlugin("plugin://%s?%s")' % (notifier, urlencode({
+                    'addon': Common.ADDON_NAME,
+                    'message': message
+                })))
+            except Exception:
+                Common.log('Invalid notifier', error=True)
+        else:
+            Common.notify(name, time=3000)
 
 
 if __name__ == '__main__':
@@ -216,10 +179,10 @@ if __name__ == '__main__':
     ac.create(ac_cfg)
 
     # monitor loop
-    monitor = Monitor()
+    monitor = xbmc.Monitor()
     while not monitor.abortRequested():
         # check abortion
-        if monitor.waitForAbort(monitor.interval):
+        if monitor.waitForAbort(1):
             break
         # check status
         if ac.getInfo().regStatus > 200:

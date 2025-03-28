@@ -7,16 +7,8 @@ import re
 from resources.lib.common import Common
 from resources.lib.phonebook import PhoneBook
 from resources.lib.history import History
-from resources.lib.defaultsearch import search
+from resources.lib.search import search
 
-
-# searchをインポート
-path = Common.GET('customsearch')
-if os.path.isfile(path):
-    dirname = os.path.dirname(path)
-    if os.path.samefile(path, os.path.join(dirname, 'customsearch.py')):
-        sys.path.append(os.path.dirname(path))
-        from customsearch import search
 
 def parse(uri):
     key = None

@@ -22,28 +22,10 @@
     <setting label="32204" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-2,)+!eq(-3,)" visible="eq(-4,edit)"/>
   </category>
   <category label="32100">
-    <setting label="32101" id="duration" type="labelenum" values="5|10|20|30|60" default="10"/>
     <setting label="32102" id="cec" type="bool" default="true"/>
+    <setting label="32103" id="notifier" type="text" default=""/>
     <setting label="32105" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearCache)"/>
     <setting label="32106" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearHistory)"/>
-    <setting label="32103" id="customsearch" type="file" default=""/>
-    <setting label="32107" type="action" action="RunPlugin(plugin://$ID/?action=clearCustomSearch)" enable="!eq(-1,)"/>
     <setting label="32104" id="debug" type="bool" default="false"/>
-  </category>
-  <category label="32300">
-    <setting id="mailaddon" type="text" visible="false"/>
-    <setting label="32990" type="text" enable="false" visible="eq(-1,)"/>
-    <setting label="32991" type="text" enable="false" visible="eq(-2,)"/>
-    <setting label="32301" id="mailnotify" type="bool" default="false" visible="!eq(-3,)"/>
-    <setting label="32302" id="mailaddress" type="text" enable="eq(-1,true)" visible="!eq(-4,)"/>
-    <setting label="32303" id="mailtemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
-  </category>
-  <category label="32400">
-    <setting id="lineaddon" type="text" visible="false"/>
-    <setting label="32990" type="text" enable="false" visible="eq(-1,)"/>
-    <setting label="32991" type="text" enable="false" visible="eq(-2,)"/>
-    <setting label="32401" id="linenotify" type="bool" default="false" visible="!eq(-3,)"/>
-    <setting label="32402" id="linetoken" type="text" enable="eq(-1,true)" visible="!eq(-4,)"/>
-    <setting label="32403" id="linetemplate" type="text" enable="eq(-2,true)" visible="!eq(-5,)"/>
   </category>
 </settings>

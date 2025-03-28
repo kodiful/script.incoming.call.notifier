@@ -52,16 +52,12 @@ msgctxt "#32100"
 msgid "Other Settings"
 msgstr ""
 
-msgctxt "#32101"
-msgid "Duration"
-msgstr ""
-
 msgctxt "#32102"
 msgid "Switch screen on incoming"
 msgstr ""
 
 msgctxt "#32103"
-msgid "Path to customsearch.py"
+msgid "Notifier addon"
 msgstr ""
 
 msgctxt "#32104"
@@ -74,10 +70,6 @@ msgstr ""
 
 msgctxt "#32106"
 msgid "[COLOR lightgreen]Clear history[/COLOR]"
-msgstr ""
-
-msgctxt "#32107"
-msgid "[COLOR lightgreen]Clear path to customsearch.py[/COLOR]"
 msgstr ""
 
 msgctxt "#32200"
@@ -98,38 +90,6 @@ msgstr ""
 
 msgctxt "#32204"
 msgid "[COLOR lightgreen]Update phonebook[/COLOR]"
-msgstr ""
-
-msgctxt "#32300"
-msgid "Mail Notify"
-msgstr ""
-
-msgctxt "#32301"
-msgid "Notify incoming call by mail"
-msgstr ""
-
-msgctxt "#32302"
-msgid "Mail address"
-msgstr ""
-
-msgctxt "#32303"
-msgid "Message"
-msgstr ""
-
-msgctxt "#32400"
-msgid "LINE Notify"
-msgstr ""
-
-msgctxt "#32401"
-msgid "Notify incoming call by LINE"
-msgstr ""
-
-msgctxt "#32402"
-msgid "Token name"
-msgstr ""
-
-msgctxt "#32403"
-msgid "Message"
 msgstr ""
 
 msgctxt "#32900"

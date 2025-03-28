@@ -70,7 +70,5 @@ if __name__ == '__main__':
         xbmc.executebuiltin('Container.Refresh()')
 
     # 設定画面
-    elif action == 'clearCustomSearch':
-        Common.SET('customsearch', '')
     elif action == 'settings':
         xbmc.executebuiltin('Addon.OpenSettings(%s)' % Common.ADDON_ID)
