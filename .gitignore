@@ -1,7 +1,0 @@
-*~
-*.pyc
-*.pyo
-.DS_Store
-__pycache__
-pjsua2.py
-_pjsua2.so
