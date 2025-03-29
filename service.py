@@ -82,6 +82,7 @@ class Account(pj.Account):
 
     def __init__(self):
         super().__init__()
+        self.notified = False
 
     def onRegState(self, param):
         # ログ
@@ -114,7 +115,9 @@ class Account(pj.Account):
         ]))
         # 通知
         if param.code == 200:
-            Common.notify('Registered as SIP client', time=3000)
+            if self.notified is False:
+                Common.notify('Registered as SIP client', time=3000)
+                self.notified = True
         else:
             Common.notify('SIP registration failed (%d)' % param.code, time=3000, error=True)
 
