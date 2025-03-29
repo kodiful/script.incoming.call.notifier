@@ -4,12 +4,14 @@ import sys
 import os
 import glob
 import shutil
+import json
 import xbmc
 import xbmcaddon
 
 from urllib.parse import urlencode
 
 from resources.lib.common import Common
+from resources.lib.db import DB
 from resources.lib.lookup import parse
 from resources.lib.lookup import lookup
 
@@ -38,6 +40,42 @@ except Exception as e:
     Common.notify('Importing pjsua2 failed', time=3000, error=True)
     Common.log(e)
     sys.exit()
+
+# 旧形式のデータをインポート
+if os.path.exists(Common.DB_PATH) is False:
+    # 旧形式のjsonファイルからインポート
+    db = DB()
+    # 旧形式のjsonファイルのバックアップ先
+    backupdir = os.path.join(Common.PROFILE_PATH, '~backup')
+    os.makedirs(backupdir, exist_ok=True)
+    # cache
+    json_file = os.path.join(Common.PROFILE_PATH, 'cache.json')
+    if os.path.exists(json_file):
+        with open(json_file, encoding='utf-8') as f:
+            for key, name in json.loads(f.read()).items():
+                db.add_to_cache(key, name)
+        shutil.move(json_file, backupdir)
+    # phonebook
+    json_file = os.path.join(Common.PROFILE_PATH, 'phonebook.json')
+    if os.path.exists(json_file):
+        with open(json_file, encoding='utf-8') as f:
+            for key, name in json.loads(f.read()).items():
+                db.add_to_phonebook(key, name)
+        shutil.move(json_file, backupdir)
+    # history
+    json_file = os.path.join(Common.PROFILE_PATH, 'history.json')
+    if os.path.exists(json_file):
+        with open(json_file, encoding='utf-8') as f:
+            for item in json.loads(f.read()):
+                db.add_to_history(f"{item['date']} {item['time']}", item['key'], item['name'], item['uri'])
+        shutil.move(json_file, backupdir)
+    # holidaysテーブル作成
+    json_file = os.path.join(Common.DATA_PATH, 'json', 'holidays.json')
+    with open(json_file, encoding='utf-8') as f:
+        for data in json.loads(f.read()):
+            db.add_holiday(data)
+    # インポート完了
+    db.conn.close()
 
 
 class Account(pj.Account):
@@ -127,6 +165,7 @@ class Account(pj.Account):
         local = parse(info.localUri)
         # ディスプレイに通知
         Common.notify(name, time=3000)
+        xbmc.executebuiltin('Container.Refresh')
         # 外部アドオンに通知
         notifier = Common.GET('notifier')
         if notifier:

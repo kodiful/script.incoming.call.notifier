@@ -33,7 +33,7 @@ if __name__ == '__main__':
         History().show()
     elif action == 'clearHistory':
         History().clear()
-        xbmc.executebuiltin('Container.Refresh()')
+        xbmc.executebuiltin('Container.Refresh')
 
     # 電話帳
     elif action == 'showPhoneBook':
@@ -55,19 +55,19 @@ if __name__ == '__main__':
         History().update(
             key=settings.get('key'),
             name=settings.get('name'))
-        xbmc.executebuiltin('Container.Refresh()')
+        xbmc.executebuiltin('Container.Refresh')
     elif action == 'removePhoneBookItem':
         PhoneBook().remove(
             key=args.get('key'))
         History().update(
             key=args.get('key'),
             name=args.get('key'))
-        xbmc.executebuiltin('Container.Refresh()')
+        xbmc.executebuiltin('Container.Refresh')
 
     # キャッシュ
     elif action == 'clearCache':
-        PhoneBook(Common.CACHE_FILE).clear()
-        xbmc.executebuiltin('Container.Refresh()')
+        PhoneBook(cache=True).clear()
+        xbmc.executebuiltin('Container.Refresh')
 
     # 設定画面
     elif action == 'settings':

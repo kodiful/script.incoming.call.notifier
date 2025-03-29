@@ -1,0 +1,31 @@
+<settings>
+  <!--
+      strings 30000 thru 30999 reserved for plugins and plugin settings
+      strings 31000 thru 31999 reserved for skins
+      strings 32000 thru 32999 reserved for scripts
+      strings 33000 thru 33999 reserved for common strings used in add-ons
+  -->
+  <category label="32000">
+    <setting label="32001" id="port" type="number" default="5060"/>
+    <setting label="32002" id="domain" type="ipaddress" default="192.168.1.1"/>
+    <setting label="32004" id="extension" type="number" default=""/>
+    <setting label="32003" id="realm" type="text" default=""/>
+    <setting label="32005" id="username" type="text" default="" enable="!eq(-1,)"/>
+    <setting label="32006" id="password" type="text" option="hidden" default="" enable="!eq(-2,)"/>
+    <setting label="32007" id="pjsua2" type="file" default=""/>
+  </category>
+  <category label="32200">
+    <setting id="mode" type="text" default="create" visible="False"/>
+    <setting label="32201" id="key" type="text" default="" enable="eq(-1,create)"/>
+    <setting label="32202" id="name" type="text" default=""/>
+    <setting label="32203" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-1,)+!eq(-2,)" visible="eq(-3,create)|eq(-3,add)"/>
+    <setting label="32204" type="action" option="close" action="RunPlugin(plugin://$ID/?action=endEditPhoneBookItem)" enable="!eq(-2,)+!eq(-3,)" visible="eq(-4,edit)"/>
+  </category>
+  <category label="32100">
+    <setting label="32102" id="cec" type="bool" default="true"/>
+    <setting label="32103" id="notifier" type="text" default=""/>
+    <setting label="32105" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearCache)"/>
+    <setting label="32106" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearHistory)"/>
+    <setting label="32104" id="debug" type="bool" default="false"/>
+  </category>
+</settings>

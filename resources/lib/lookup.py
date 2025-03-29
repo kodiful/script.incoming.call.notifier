@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import os
 import re
 
 from resources.lib.common import Common
@@ -26,7 +24,7 @@ def lookup(uri):
         name = PhoneBook().lookup(key)
         if name is None:
             # キャッシュを検索
-            cache = PhoneBook(Common.CACHE_FILE)
+            cache = PhoneBook(cache=True)
             name = cache.lookup(key)
             if name is None:
                 # ウェブを検索

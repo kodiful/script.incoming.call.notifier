@@ -2,7 +2,6 @@
 <addon id="script.incoming.call.notifier" name="Incoming Call Notifier" version="5.0" provider-name="kodiful">
   <requires>
     <import addon="xbmc.python" version="3.0.0" />
-    <import addon="script.module.chardet" version="3.0.4"/>
     <import addon="script.module.beautifulsoup4" version="4.3.1" />
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">

@@ -2,63 +2,46 @@
 
 import sys
 import re
-import datetime
 import xbmcgui
 import xbmcplugin
 
 from urllib.parse import urlencode
 
 from resources.lib.common import Common
+from resources.lib.db import DB
 from resources.lib.phonebook import PhoneBook
 
 
-class History:
+class History(Common):
 
-    def __init__(self, filepath=Common.HISTORY_FILE):
-        self.filepath = filepath
-        self.read()
-
-    def read(self):
-        self.data = Common.read_json(self.filepath) or []
-
-    def write(self):
-        Common.write_json(self.filepath, self.data)
+    def __init__(self):
+        return
 
     def append(self, uri, key, name):
-        now = datetime.datetime.now()
-        self.data.append({
-            'date': now.strftime('%Y-%m-%d'),
-            'time': now.strftime('%H:%M:%S'),
-            'weekday': now.weekday(),
-            'uri': uri,
-            'key': key,
-            'name': name,
-        })
-        self.write()
+        db = DB()
+        db.add_to_history(db.now(), key, name, uri)
+        db.conn.close()
 
     def update(self, key, name):
-        for data in self.data:
-            if data['key'] == key:
-                data['name'] = name
-        self.write()
+        db = DB()
+        sql = 'UPDATE history SET name = :name WHERE key = :key'
+        db.cursor.execute(sql, {'key': key, 'name': name})
+        db.conn.close()
 
     def clear(self):
-        self.data = []
-        self.write()
+        db = DB()
+        db.cursor.execute('DELETE FROM history')
+        db.conn.close()
 
     def show(self):
-        # 曜日表記
-        w = Common.STR(32900).split(',')
-        # 履歴表示
-        for h in reversed(self.data):
-            # 履歴
-            date = h['date']
-            time = h['time']
-            wday = h['weekday']
-            uri = h['uri']
-            key = h['key']
-            name = h['name']
-            datetime = '%s(%s) %s' % (date, w[wday], time)
+        db = DB()
+        sql = '''SELECT his.date, his.key, his.name, hol.name
+        FROM history as his LEFT JOIN holidays AS hol ON SUBSTR(his.date, 1, 10) = hol.date
+        ORDER BY his.date DESC'''
+        db.cursor.execute(sql)
+        for date, key, name, holiday in db.cursor.fetchall():
+            # 曜日
+            w = self.weekday(date)
             # コンテクストメニュー
             menu = []
             if re.compile('^0[0-9]{8,}').search(key):
@@ -84,20 +67,21 @@ class History:
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
             menu.append((Common.STR(32902), action))
             # 書式
-            if Common.isholiday(date) or wday == 6:
+            if holiday or w == 6:
                 template1 = '[COLOR red]%s[/COLOR]'
-            elif wday == 5:
+            elif w == 5:
                 template1 = '[COLOR blue]%s[/COLOR]'
             else:
                 template1 = '%s'
             template3 = '%s'
             template = '%s  %s  %s' % (template1, template3, template2)
-            title = template % (datetime, key, name)
+            title = re.sub(r'\s{2,}', '  ', template % (date, key, name))
             li = xbmcgui.ListItem(title)
-            li.setArt({'icon': Common.RINGER_VOLUME, 'thumb': Common.RINGER_VOLUME})
+            li.setArt({'icon': self.RINGER_VOLUME, 'thumb': self.RINGER_VOLUME})
             li.addContextMenuItems(menu, replaceItems=True)
             # 履歴 - 追加
             url = ''
             xbmcplugin.addDirectoryItem(int(sys.argv[1]), url, listitem=li)
         # リストアイテム追加完了
         xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        db.conn.close()
