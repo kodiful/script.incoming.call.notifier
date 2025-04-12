@@ -2,7 +2,9 @@
 
 import os
 import inspect
+import traceback
 import calendar
+from datetime import datetime
 
 import xbmc
 import xbmcaddon
@@ -24,7 +26,7 @@ class Common:
     PLUGIN_PATH = xbmcvfs.translatePath(INFO('path'))
     RESOURCES_PATH = os.path.join(PLUGIN_PATH, 'resources')
     DATA_PATH = os.path.join(RESOURCES_PATH, 'data')
-    IMAGE_PATH = os.path.join(DATA_PATH, 'image')
+    IMAGE_PATH = os.path.join(DATA_PATH, 'icons')
 
     # アドオン設定へのアクセス
     STR = ADDON.getLocalizedString
@@ -40,59 +42,70 @@ class Common:
     DB_PATH = os.path.join(PROFILE_PATH, 'phone.db')
 
     # サムネイル
-    CONTACTS = os.path.join(IMAGE_PATH, 'icons8-contacts-filled-500.png')
+    CONTACTS = os.path.join(IMAGE_PATH, 'actor.png')
     RINGER_VOLUME = os.path.join(IMAGE_PATH, 'icons8-ringer-volume-filled-500.png')
 
     # 通知
     @staticmethod
-    def notify(message, **options):
-        # ポップアップする時間
-        time = options.get('time', 10000)
-        # ポップアップアイコン
-        image = options.get('image')
-        if image:
-            pass
-        elif options.get('error', False):
+    def notify(*messages, **options):
+        # アドオン
+        addon = xbmcaddon.Addon()
+        name = addon.getAddonInfo('name')
+        # デフォルト設定
+        if options.get('error'):
             image = 'DefaultIconError.png'
+            level = xbmc.LOGERROR
         else:
             image = 'DefaultIconInfo.png'
-        # ログ出力
-        Common.log(message, error=options.get('error', False))
+            level = xbmc.LOGINFO
+        # ポップアップする時間
+        duration = options.get('duration', 10000)
+        # ポップアップアイコン
+        image = options.get('image', image)
+        # メッセージ
+        messages = ' '.join(map(lambda x: str(x), messages))
         # ポップアップ通知
-        xbmc.executebuiltin('Notification("%s","%s",%d,"%s")' % (Common.ADDON_NAME, message, time, image))
+        xbmc.executebuiltin(f'Notification("{name}","{messages}",{duration},"{image}")')
+        # ログ出力
+        Common.log(messages, level=level)
 
-    # ログ出力
+    # ログ
     @staticmethod
     def log(*messages, **options):
-        # ログレベルを設定
-        if options.get('error', False):
-            level = xbmc.LOGERROR
-        elif options.get('notice', False):
-            level = xbmc.LOGINFO
-        elif Common.GET('debug') == 'true':
-            level = xbmc.LOGINFO
+        # アドオン
+        addon = xbmcaddon.Addon()
+        # ログレベル、メッセージを設定
+        if isinstance(messages[0], Exception):
+            level = options.get('level', xbmc.LOGERROR)
+            message = '\n'.join(list(map(lambda x: x.strip(), traceback.TracebackException.from_exception(messages[0]).format())))
+            if len(messages[1:]) > 0:
+                message += ': ' + ' '.join(map(lambda x: str(x), messages[1:]))
         else:
-            level = None
-        # ログ出力
-        if level:
+            level = options.get('level', xbmc.LOGINFO)
             frame = inspect.currentframe().f_back
-            xbmc.log('%s: %s(%d): %s: %s' % (
-                Common.ADDON_ID,
-                os.path.basename(frame.f_code.co_filename),
-                frame.f_lineno,
-                frame.f_code.co_name,
-                ' '.join(map(lambda x: str(x), messages))
-            ), level)
+            filename = os.path.basename(frame.f_code.co_filename)
+            lineno = frame.f_lineno
+            name = frame.f_code.co_name
+            id = addon.getAddonInfo('id')
+            message = f'Addon "{id}", File "{filename}", line {lineno}, in {name}'
+            if len(messages) > 0:
+                message += ': ' + ' '.join(map(lambda x: str(x), messages))
+        # ログ出力
+        xbmc.log(message, level)
 
     @staticmethod
-    def weekday(datetime_str):
+    def datetime(datetimestr):
+        # 2023-04-20 05:00:00 -> datetime(2023, 4, 20, 5, 0, 0)
+        datetimestr = datetimestr + '1970-01-01 00:00:00'[len(datetimestr):]  # padding
+        date, time = datetimestr.split(' ')
+        year, month, day = map(int, date.split('-'))
+        h, m, s = map(int, time.split(':'))
+        return datetime(year, month, day, h, m, s)
+
+    @staticmethod
+    def weekday(datetimestr):
         # 2023-04-20 05:00:00 -> calendar.weekday(2023, 4, 20) -> 3
-        date, _ = datetime_str.split(' ')
+        datetimestr = datetimestr + '1970-01-01 00:00:00'[len(datetimestr):]  # padding
+        date, _ = datetimestr.split(' ')
         year, month, day = map(int, date.split('-'))
         return calendar.weekday(year, month, day)
-
-    # workaround for encode problems for strftime on Windows
-    # cf. https://ja.stackoverflow.com/questions/44597/windows上のpythonのdatetime-strftimeで日本語を使うとエラーになる
-    @staticmethod
-    def strftime(d, format):
-        return d.strftime(format.encode('unicode-escape').decode()).encode().decode('unicode-escape')

@@ -26,6 +26,5 @@
     <setting label="32103" id="notifier" type="text" default=""/>
     <setting label="32105" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearCache)"/>
     <setting label="32106" type="action" option="close" action="RunPlugin(plugin://$ID/?action=clearHistory)"/>
-    <setting label="32104" id="debug" type="bool" default="false"/>
   </category>
 </settings>

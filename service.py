@@ -37,7 +37,7 @@ try:
     # インポート実行
     from resources.pjsua2 import pjsua2 as pj
 except Exception as e:
-    Common.notify('Importing pjsua2 failed', time=3000, error=True)
+    Common.notify('Importing pjsua2 failed', error=True)
     Common.log(e)
     sys.exit()
 
@@ -116,10 +116,10 @@ class Account(pj.Account):
         # 通知
         if param.code == 200:
             if self.notified is False:
-                Common.notify('Registered as SIP client', time=3000)
+                Common.notify('Registered as SIP client', duration=3000)
                 self.notified = True
         else:
-            Common.notify('SIP registration failed (%d)' % param.code, time=3000, error=True)
+            Common.notify('SIP registration failed (%d)' % param.code, error=True)
 
     def onIncomingCall(self, param):
         # ログ
@@ -167,7 +167,7 @@ class Account(pj.Account):
         name, key = lookup(info.remoteUri)
         local = parse(info.localUri)
         # ディスプレイに通知
-        Common.notify(name, time=3000)
+        Common.notify(name)
         xbmc.executebuiltin('Container.Refresh')
         # 外部アドオンに通知
         notifier = Common.GET('notifier')
@@ -237,7 +237,7 @@ if __name__ == '__main__':
         # handle events
         status = ep.libHandleEvents(10)
         if status < 0:
-            Common.notify('SIP event handler failed (%d)' % status, time=3000, error=True)
+            Common.notify('SIP event handler failed (%d)' % status, error=True)
 
     # shutdown the account
     ac.shutdown()

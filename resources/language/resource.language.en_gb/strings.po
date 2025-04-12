@@ -60,10 +60,6 @@ msgctxt "#32103"
 msgid "Notifier addon"
 msgstr ""
 
-msgctxt "#32104"
-msgid "Debug"
-msgstr ""
-
 msgctxt "#32105"
 msgid "[COLOR lightgreen]Clear cache[/COLOR]"
 msgstr ""
@@ -93,7 +89,7 @@ msgid "[COLOR lightgreen]Update phonebook[/COLOR]"
 msgstr ""
 
 msgctxt "#32900"
-msgid "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+msgid "%Y/%m/%d(%a) %H:%M:%S"
 msgstr ""
 
 msgctxt "#32901"

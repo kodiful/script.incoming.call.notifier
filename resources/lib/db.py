@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
+import locale
 from datetime import datetime
 
 from resources.lib.common import Common
@@ -90,3 +91,27 @@ class DB(Common):
         placeholders = ', '.join(['?' for _ in values])
         sql = f'INSERT INTO holidays ({columns}) VALUES ({placeholders})'
         self.cursor.execute(sql, list(values.values()))
+
+    # 祝祭日を判定する
+    def is_holiday(self, date):
+        sql = 'SELECT name FROM holidays WHERE date = :date'
+        self.cursor.execute(sql, {'date': date})
+        name = self.cursor.fetchone()
+        return name
+
+    def convert(self, timestamp, format, color=None):
+        # timestamp: 2025-04-05 12:34:00
+        # format: %Y年%m月%d日(%a) %H:%M
+        # return: [COLOR blue]2025年04月05日(土) 12:34[/COLOR]
+        locale.setlocale(locale.LC_ALL, '')  # 言語に応じた日付フォーマット用設定
+        text = self.datetime(timestamp).strftime(format)
+        w = self.weekday(timestamp)
+        if color:
+            text = f'[COLOR {color}]{text}[/COLOR]'
+        elif self.is_holiday(timestamp[:10]):  # 祝祭日
+            text = f'[COLOR red]{text}[/COLOR]'
+        elif w == 6:  # 日曜日
+            text = f'[COLOR red]{text}[/COLOR]'
+        elif w == 5:  # 土曜日
+            text = f'[COLOR blue]{text}[/COLOR]'
+        return text

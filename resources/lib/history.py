@@ -35,48 +35,35 @@ class History(Common):
 
     def show(self):
         db = DB()
-        sql = '''SELECT his.date, his.key, his.name, hol.name
-        FROM history as his LEFT JOIN holidays AS hol ON SUBSTR(his.date, 1, 10) = hol.date
-        ORDER BY his.date DESC'''
+        sql = 'SELECT date, key, name FROM history ORDER BY date DESC'
         db.cursor.execute(sql)
-        for date, key, name, holiday in db.cursor.fetchall():
-            # 曜日
-            w = self.weekday(date)
+        for date, key, name in db.cursor.fetchall():
             # コンテクストメニュー
             menu = []
             if re.compile('^0[0-9]{8,}').search(key):
                 if PhoneBook().lookup(key):
-                    template2 = '[COLOR lightgreen]%s[/COLOR]'
                     action = 'RunPlugin({url}?action=beginEditPhoneBookItem&{query})'.format(url=sys.argv[0], query=urlencode({
                         'key': key,
                         'name': name
                     }))
                     menu.append((Common.STR(32904), action))
+                    name = f'[COLOR lightgreen]{name} <{key}>[/COLOR]'
                 else:
-                    template2 = '[COLOR khaki]%s[/COLOR]'
                     action = 'RunPlugin({url}?action=addPhoneBookItem&{query})'.format(url=sys.argv[0], query=urlencode({
                         'key': key,
                         'name': name
                     }))
                     menu.append((Common.STR(32903), action))
+                    name = f'[COLOR khaki]{name} <{key}>[/COLOR]'
             else:
-                key = ''
-                template2 = '[COLOR orange]%s[/COLOR]'
+                name = f'[COLOR orange]{name}[/COLOR]'
             action = 'Container.Update(%s?action=showPhoneBook)' % (sys.argv[0])
             menu.append((Common.STR(32907), action))
             action = 'RunPlugin(%s?action=settings)' % (sys.argv[0])
             menu.append((Common.STR(32902), action))
-            # 書式
-            if holiday or w == 6:
-                template1 = '[COLOR red]%s[/COLOR]'
-            elif w == 5:
-                template1 = '[COLOR blue]%s[/COLOR]'
-            else:
-                template1 = '%s'
-            template3 = '%s'
-            template = '%s  %s  %s' % (template1, template3, template2)
-            title = re.sub(r'\s{2,}', '  ', template % (date, key, name))
-            li = xbmcgui.ListItem(title)
+            # リストアイテム
+            date = db.convert(date, Common.STR(32900))
+            li = xbmcgui.ListItem(f'{date}  {name}')
             li.setArt({'icon': self.RINGER_VOLUME, 'thumb': self.RINGER_VOLUME})
             li.addContextMenuItems(menu, replaceItems=True)
             # 履歴 - 追加

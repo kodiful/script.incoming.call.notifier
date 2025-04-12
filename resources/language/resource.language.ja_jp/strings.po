@@ -60,10 +60,6 @@ msgctxt "#32103"
 msgid "Notifier addon"
 msgstr "着信通知用アドオン"
 
-msgctxt "#32104"
-msgid "Debug"
-msgstr "デバッグ"
-
 msgctxt "#32105"
 msgid "[COLOR lightgreen]Clear cache[/COLOR]"
 msgstr "[COLOR lightgreen]キャッシュをクリアする[/COLOR]"
@@ -93,8 +89,8 @@ msgid "[COLOR lightgreen]Update phonebook[/COLOR]"
 msgstr "[COLOR lightgreen]電話帳を更新する[/COLOR]"
 
 msgctxt "#32900"
-msgid "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
-msgstr "月,火,水,木,金,土,日"
+msgid "%Y/%m/%d(%a) %H:%M:%S"
+msgstr "%Y年%m月%d日(%a) %H:%M:%S"
 
 msgctxt "#32901"
 msgid "[COLOR orange]Phone Book[/COLOR]"
