@@ -16,8 +16,8 @@ def search(key):
         url = 'https://www.telnavi.jp/phone/%s' % key
         # ページ読み込み
         opts = Options()
-        opts.add_argument('-headless')
-        driver = webdriver.Firefox(options=opts)
+        #opts.add_argument('--headless=new')
+        driver = webdriver.Chrome(options=opts)
         driver.get(url)
         title = driver.title
         driver.quit()

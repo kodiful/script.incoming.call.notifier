@@ -14,11 +14,11 @@ import xbmcvfs
 class Common:
 
     # アドオンオブジェクト
-    ADDON = xbmcaddon.Addon()
+    ADDON_ID = 'script.incoming.call.notifier'
+    ADDON = xbmcaddon.Addon(ADDON_ID)
 
     # アドオン属性
     INFO = ADDON.getAddonInfo
-    ADDON_ID = INFO('id')
     ADDON_NAME = INFO('name')
 
     # ファイル/ディレクトリ
