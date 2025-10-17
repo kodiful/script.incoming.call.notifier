@@ -11,11 +11,14 @@ import xbmcaddon
 import xbmcvfs
 
 
+ADDON_ID = 'script.incoming.call.notifier'
+
+
 class Common:
 
     # アドオンオブジェクト
-    ADDON_ID = 'script.incoming.call.notifier'
     ADDON = xbmcaddon.Addon(ADDON_ID)
+    ADDON_ID = ADDON_ID
 
     # アドオン属性
     INFO = ADDON.getAddonInfo
@@ -49,7 +52,7 @@ class Common:
     @staticmethod
     def notify(*messages, **options):
         # アドオン
-        addon = xbmcaddon.Addon()
+        addon = xbmcaddon.Addon(ADDON_ID)
         name = addon.getAddonInfo('name')
         # デフォルト設定
         if options.get('error'):
@@ -73,7 +76,7 @@ class Common:
     @staticmethod
     def log(*messages, **options):
         # アドオン
-        addon = xbmcaddon.Addon()
+        addon = xbmcaddon.Addon(ADDON_ID)
         # ログレベル、メッセージを設定
         if isinstance(messages[0], Exception):
             level = options.get('level', xbmc.LOGERROR)
