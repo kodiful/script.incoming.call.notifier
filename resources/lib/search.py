@@ -7,7 +7,7 @@ from resources.lib.common import Common
 
 sys.path.append(Common.RESOURCES_PATH)
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 
 
 def search(key):
@@ -17,6 +17,7 @@ def search(key):
         # ページ読み込み
         opts = Options()
         opts.add_argument('--headless=new')
+        opts.add_argument('--disable-gpu')
         #opts.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
         opts.add_argument("--user-agent=Mozilla/5.0 (X11; CrOS x86_64 14541.0.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
         driver = webdriver.Chrome(options=opts)
