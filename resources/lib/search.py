@@ -16,7 +16,9 @@ def search(key):
         url = 'https://www.telnavi.jp/phone/%s' % key
         # ページ読み込み
         opts = Options()
-        #opts.add_argument('--headless=new')
+        opts.add_argument('--headless=new')
+        #opts.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
+        opts.add_argument("--user-agent=Mozilla/5.0 (X11; CrOS x86_64 14541.0.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
         driver = webdriver.Chrome(options=opts)
         driver.get(url)
         title = driver.title

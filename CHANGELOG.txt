@@ -1,5 +1,5 @@
 2025-10-17 v5.1
-電話番号検索をselenium+geckodriver+firefoxで実行するよう変更
+電話番号検索をselenium+chromedriver+Chrome(Chromium)で実行するよう変更
 
 2025-04-12 v5.0
 Line notifyのサービス終了にともない通知機能を整理
